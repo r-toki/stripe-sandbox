@@ -1,8 +1,10 @@
 import express, { raw } from "express";
-import { stripe } from "./stripe";
+import Stripe from "stripe";
+
 import { assertIsDefined } from "./lib/assert-is-defined";
 import { unwrapEnv } from "./lib/env";
-import Stripe from "stripe";
+import { logger } from "./lib/logger";
+import { stripe } from "./lib/stripe";
 
 // Env
 const port = process.env.PROT || 3000;
@@ -34,13 +36,14 @@ app.post("/webhook", raw({ type: "application/json" }), async (req, res) => {
     assertIsDefined(signature);
     event = stripe.webhooks.constructEvent(req.body, signature, stripeWebhookSecretKey);
   } catch (err) {
-    console.log(`Webhook signature verification failed.`, err);
+    logger.error(`Webhook signature verification failed.`);
+    logger.error(err);
     return res.sendStatus(400);
   }
 
   switch (event.type) {
     default:
-      console.log(`Unhandled event type ${event.type}.`);
+      logger.info(`Unhandled event type ${event.type}.`);
   }
 
   res.send();

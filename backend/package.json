@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "concurrently -n \"svr,wbh\" \"yarn dev:server\" \"yarn dev:webhook\"",
-    "dev:server": "nodemon -r ./src/setup.ts ./src/index.ts",
-    "dev:webhook": "stripe listen --forward-to localhost:3000/webhook"
+    "dev:server": "nodemon -r ./src/lib/setup.ts ./src/index.ts",
+    "dev:webhook": "stripe listen --forward-to localhost:3000/webhook",
+    "run:script": "ts-node --project ./script/tsconfig.json -r ./src/lib/setup.ts"
   },
   "dependencies": {
     "dotenv": "^16.1.4",
