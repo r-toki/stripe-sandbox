@@ -1,12 +1,14 @@
 import { assertIsDefined } from "./assert-is-defined";
 
-export const getEnv = (key: string) => {
+type Key = "STRIPE_SECRET_KEY" | "STRIPE_WEBHOOK_SECRET_KEY" | "STRIPE_CHECKOUT_REDIRECT_URL";
+
+export const getEnv = (key: Key) => {
   const value = process.env[key];
+  assertIsDefined(value);
   return value;
 };
 
-export const unwrapEnv = (key: string) => {
+export const getEnvSafely = (key: Key) => {
   const value = process.env[key];
-  assertIsDefined(value);
   return value;
 };
