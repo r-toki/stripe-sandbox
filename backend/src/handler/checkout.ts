@@ -8,7 +8,7 @@ import { stripe } from "../lib/stripe";
 export const createCheckout = catchAsync(async (_req: Request, res: Response) => {
   const stripeCheckoutRedirectUrl = getEnv("STRIPE_CHECKOUT_REDIRECT_URL");
 
-  // TODO: Firebase Authentication を使うのなら JWT から uid を取得して findOrCreate する
+  // TODO: JWT から uid を取得し、db に customers を問い合わせ。それをもとに findOrCreate をする
   const customer = await stripe.customers.create();
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
