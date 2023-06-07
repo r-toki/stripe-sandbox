@@ -8,9 +8,13 @@ import { logger } from "../lib/logger";
 import { stripe } from "../lib/stripe";
 
 export const createWebhook = catchAsync(async (req: Request, res: Response) => {
-  const event = extractEvent(req);
+  let event: Stripe.Event;
 
-  if (!event) {
+  try {
+    event = extractEvent(req);
+  } catch (e) {
+    logger.error("Webhook signature verification failed.");
+    logger.error(e);
     res.sendStatus(400);
     return;
   }
@@ -23,17 +27,11 @@ export const createWebhook = catchAsync(async (req: Request, res: Response) => {
   res.send();
 });
 
-const extractEvent = (req: Request): Stripe.Event | null => {
-  try {
-    const signature = req.headers["stripe-signature"];
-    assertIsDefined(signature);
-    const stripeWebhookSecretKey = getEnv("STRIPE_WEBHOOK_SECRET_KEY");
+const extractEvent = (req: Request): Stripe.Event => {
+  const signature = req.headers["stripe-signature"];
+  assertIsDefined(signature);
+  const stripeWebhookSecretKey = getEnv("STRIPE_WEBHOOK_SECRET_KEY");
 
-    const event = stripe.webhooks.constructEvent(req.body, signature, stripeWebhookSecretKey);
-    return event;
-  } catch (err) {
-    logger.error(`Webhook signature verification failed.`);
-    logger.error(err);
-    return null;
-  }
+  const event = stripe.webhooks.constructEvent(req.body, signature, stripeWebhookSecretKey);
+  return event;
 };
