@@ -75,8 +75,9 @@ const createAndConfirmPaymentIntent = async (input: CreateAndConfirmPaymentInten
 /**
  * Constants
  */
-const USER_1 = "cus_O1vve03J8z3tX7";
-const USER_1_PAYMENT_METHOD_1 = "pm_1NFs4TIDDUiR4OJzQ49fcwWp";
+const USER_1 = "cus_O2dEPtW78rS8DI";
+const USER_1_PAYMENT_METHOD_SUCCESS = "pm_1NGXyvIDDUiR4OJzyAo2KQDS";
+const USER_1_PAYMENT_METHOD_FAILED = "TODO";
 
 /**
  * Main
@@ -86,17 +87,17 @@ const main = async () => {
   //   amount: 1_000,
   //   currency: "jpy",
   //   customer: USER_1,
-  //   payment_method: USER_1_PAYMENT_METHOD_1,
+  //   payment_method: USER_1_PAYMENT_METHOD_SUCCESS,
   // });
-  // await confirmPaymentIntent("TODO");
+  // await confirmPaymentIntent("pi_3NGC7sIDDUiR4OJz0uiE6uIp");
   // await createAndConfirmPaymentIntent({
   //   amount: 1_000,
   //   currency: "jpy",
   //   customer: USER_1,
-  //   payment_method: USER_1_PAYMENT_METHOD_1,
+  //   payment_method: USER_1_PAYMENT_METHOD_SUCCESS,
   // });
   // await listAll();
-  // await listPaymentIntents()
+  // await listPaymentIntents();
 };
 
 main().catch((e) => logger.error(e));

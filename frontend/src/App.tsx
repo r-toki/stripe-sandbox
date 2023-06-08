@@ -7,11 +7,11 @@ export const App = () => {
     const query = new URLSearchParams(window.location.search);
 
     if (query.get("success")) {
-      setMessage("Order placed! You will receive an email confirmation.");
+      setMessage("Succeeded!");
     }
 
     if (query.get("canceled")) {
-      setMessage("Order canceled -- continue to shop around and checkout when you're ready.");
+      setMessage("Canceled.");
     }
   }, []);
 
@@ -21,8 +21,8 @@ export const App = () => {
 const ProductDisplay = () => (
   <section>
     {/* TODO: BACKEND_URL は env から読む */}
-    <form action="http://localhost:3000/checkout" method="POST">
-      <button type="submit">Checkout</button>
+    <form action="http://localhost:3000/checkout/setup" method="POST">
+      <button type="submit">setup</button>
     </form>
   </section>
 );
